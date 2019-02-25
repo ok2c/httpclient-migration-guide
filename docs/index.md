@@ -19,4 +19,9 @@
 1. [Migration to HttpClient 5.0 async APIs](migration-to-async-streaming.md)
 
     The ultimate goal of the migration process should be to use HttpClient 5.0 async APIs 
-    with full content streaming over pipelined HTTP/1.1 or multiplexed HTTP/2 connections.
+    with full content streaming over full-duplex HTTP/1.1 or HTTP/2 connections.
+
+1. [Migration to HttpClient 5.0 async APIs for HTTP/2 only](migration-to-async-http2.md)
+
+    For those scenarios where HTTP/1.1 compatibility is no longer required HttpClient 5.0
+    provides HTTP/2 optimized clients.

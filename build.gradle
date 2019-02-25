@@ -9,7 +9,7 @@ ext {
 versions.httpclient4 = '4.5.7'
 versions.httpclient5 = '5.0-beta3'
 versions.jackson = '2.9.6'
-versions.asyncjson = '0.1.0'
+versions.asyncjson = '0.1.1'
 versions.slf4j = '1.7.25'
 
 libraries.httpclient4 = "org.apache.httpcomponents:httpclient:${versions.httpclient4}"
