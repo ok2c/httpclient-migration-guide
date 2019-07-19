@@ -96,17 +96,10 @@ HttpClient 4.x and 5.0 series.
     List<NameValuePair> requestData = Arrays.asList(
             new BasicNameValuePair("name1", "value1"),
             new BasicNameValuePair("name2", "value2"));
-    BasicHttpEntity requestEntity = new BasicHttpEntity() {
-
-        @Override
-        public void writeTo(OutputStream outstream) throws IOException {
-            objectMapper.writeValue(outstream, requestData);
-            outstream.flush();
-        }
-
-    };
-    requestEntity.setContentType(ContentType.APPLICATION_JSON.toString());
-    httpPost.setEntity(requestEntity);
+    httpPost.setEntity(HttpEntities.create(outstream -> {
+        objectMapper.writeValue(outstream, requestData);
+        outstream.flush();
+    }, ContentType.APPLICATION_JSON));
     ```
 
 1. HTTP response messages in HttpClient 5.x no longer have a status line. 

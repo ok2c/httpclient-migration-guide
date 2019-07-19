@@ -16,9 +16,7 @@
 
 package com.ok2c.httpcomponents.sample;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,14 +34,14 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
-import org.apache.hc.client5.http.ssl.TLS;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.SocketConfig;
-import org.apache.hc.core5.http.io.entity.BasicHttpEntity;
+import org.apache.hc.core5.http.io.entity.HttpEntities;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.ssl.SSLContexts;
@@ -99,17 +97,10 @@ public class HttpClient5ClassicExample {
         List<NameValuePair> requestData = Arrays.asList(
                 new BasicNameValuePair("name1", "value1"),
                 new BasicNameValuePair("name2", "value2"));
-        BasicHttpEntity requestEntity = new BasicHttpEntity() {
-
-            @Override
-            public void writeTo(OutputStream outstream) throws IOException {
-                objectMapper.writeValue(outstream, requestData);
-                outstream.flush();
-            }
-
-        };
-        requestEntity.setContentType(ContentType.APPLICATION_JSON.toString());
-        httpPost.setEntity(requestEntity);
+        httpPost.setEntity(HttpEntities.create(outstream -> {
+            objectMapper.writeValue(outstream, requestData);
+            outstream.flush();
+        }, ContentType.APPLICATION_JSON));
 
         JsonNode responseData = client.execute(httpPost, response -> {
             if (response.getCode() >= 300) {
