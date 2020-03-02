@@ -2,6 +2,7 @@ target
 maven-eclipse.xml
 .gradle
 out
+build
 .idea
 *.iml
 **/log4j2-debug.xml
